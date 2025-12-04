@@ -1,0 +1,24 @@
+<Solution>
+  <Folder Name="/framework/">
+    <Project Path="framework/HW22.framework/HW22.framework.csproj" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/01.Domain/" />
+  <Folder Name="/src/01.Domain/Core/">
+    <Project Path="src/01.Domain/Core/HW22.Domain.Core/HW22.Domain.Core.csproj" />
+  </Folder>
+  <Folder Name="/src/01.Domain/Service/">
+    <Project Path="src/01.Domain/Service/HW22.Domain.AppServices/HW22.Domain.AppServices.csproj" Id="de01c344-e352-4d1e-9447-82da87b5dec3" />
+    <Project Path="src/01.Domain/Service/HW22.Domain.Services/HW22.Domain.Services.csproj" Id="2437e0f3-9d93-4162-9bd5-947e47918772" />
+  </Folder>
+  <Folder Name="/src/02.Infrastructure/" />
+  <Folder Name="/src/02.Infrastructure/Data Access/">
+    <Project Path="src/02.Infrastructure/Data Access/HW22.Infra.Data.Repos.Ef/HW22.Infra.Data.Repos.Ef.csproj" />
+  </Folder>
+  <Folder Name="/src/02.Infrastructure/Db/">
+    <Project Path="src/02.Infrastructure/Db/HW22.Infra.Db.SqlServer.Ef/HW22.Infra.Db.SqlServer.Ef.csproj" />
+  </Folder>
+  <Folder Name="/src/03.Presentation/">
+    <Project Path="src/03.Presentation/HW22.Presentation.RazorPages/HW22.Presentation.RazorPages.csproj" />
+  </Folder>
+</Solution>

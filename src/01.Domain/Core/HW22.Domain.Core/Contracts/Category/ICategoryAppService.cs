@@ -1,0 +1,13 @@
+﻿using HW22.Domain.Core.Dtos.Category;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace HW22.Domain.Core.Contracts.Category
+{
+    public interface ICategoryAppService
+    {
+        Task<List<GetCategoryDto>> GetAll(CancellationToken cancellationToken);
+        Task<GetCategoryDto?> GetById(int id, CancellationToken cancellationToken);
+    }
+}

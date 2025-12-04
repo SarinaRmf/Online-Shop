@@ -1,0 +1,60 @@
+﻿using HW22.Domain.Core.Contracts.Order;
+using HW22.Domain.Core.Contracts.OrderItem;
+using HW22.Domain.Core.Contracts.Product;
+using HW22.Domain.Core.Contracts.User;
+using HW22.Domain.Core.Contracts.Wallet;
+using HW22.Domain.Core.Dtos._common;
+using HW22.Domain.Core.Dtos.Order;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace HW22.Domain.AppServices
+{
+    public class OrderAppService(IOrderService orderService,IOrderItemService orderItemService,IUserService userService,IWalletService walletService,IProductService productService) : IOrderAppService 
+    {
+        public async Task<ResultDto<bool>> MakeOrder(CreateOrderDto orderDto, CancellationToken cancellationToken)
+        {
+            
+            var userWalletBalance = await userService.GetUserWalletBalance(orderDto.UserId, cancellationToken);
+            if (userWalletBalance < orderDto.TotalPrice)
+            {
+                return ResultDto<bool>.Failure("Not enough Balance in your Wallet");
+            }
+
+            var newWalletAmount = userWalletBalance - orderDto.TotalPrice;
+            var walletDeductionResult = await walletService.Update(orderDto.UserId, newWalletAmount, cancellationToken);
+            if (!walletDeductionResult)
+                return ResultDto<bool>.Failure("Wallet update failed.");
+
+
+            var orderCreationResult = await orderService.Create(orderDto.UserId, orderDto.TotalPrice, cancellationToken);
+            if (orderCreationResult <= 0)
+            {
+                return ResultDto<bool>.Failure("Order creation failed.");
+            }
+
+            foreach (var item in orderDto.OrederItems)
+            {
+                item.OrderId = orderCreationResult;
+                var newProductStock = await productService.GetProductCount(item.ProductId, cancellationToken) - item.Count;
+                var productStockUpdateResult = await productService.UpdateCount(item.ProductId, newProductStock, cancellationToken);
+                if (!productStockUpdateResult)
+                {
+                    return ResultDto<bool>.Failure("Failed to update stock for product.");
+                }
+
+            }
+
+            var orderItemCreationResult = await orderItemService.AddItems(orderDto.OrederItems, cancellationToken);
+            if (orderItemCreationResult == false)
+            {
+                return ResultDto<bool>.Failure("Order Item creation failed.");
+            }
+
+            return ResultDto<bool>.Success("Checkout done successfully!", false);
+
+
+        }
+    }
+}
