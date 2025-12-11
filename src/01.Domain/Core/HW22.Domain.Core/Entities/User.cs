@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace HW22.Domain.Core.Entities
@@ -15,5 +16,6 @@ namespace HW22.Domain.Core.Entities
         public List<Order>? Orders { get; set; }
         public Wallet Wallet { get; set; }
         public int WalletId { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

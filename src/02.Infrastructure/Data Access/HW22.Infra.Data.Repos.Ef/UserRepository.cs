@@ -1,4 +1,4 @@
-﻿using HW22.Domain.Core.Contracts.User;
+﻿using HW22.Domain.Core.Contracts.Repository;
 using HW22.Domain.Core.Dtos.User;
 using HW22.Infra.Db.SqlServer.Ef;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +16,7 @@ namespace HW22.Infra.Data.Repos.Ef
                 {
                     UserId = u.Id,
                     UserName = u.Username,
+                    IsAdmin = u.IsAdmin
                 })
                 .FirstOrDefault();
         }
@@ -25,6 +26,40 @@ namespace HW22.Infra.Data.Repos.Ef
                 .Where(u => u.Id == userId)
                 .Select(u => u.Wallet.Amount)
                 .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<GetUserDto?> GetUserDetails(int userId,CancellationToken cancellationToken)
+        {
+            return await _context.Users
+                .AsNoTracking()
+                .Where(u => u.Id == userId)
+                .Select(u => new GetUserDto
+                {
+
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Phone = u.Phone,
+                    WalletCount = u.Wallet.Amount,
+                    Address = u.Address,
+                    Username = u.Username,
+                })
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<List<GetUserDto>> GetUsers(CancellationToken cancellationToken)
+        {
+            return await _context.Users
+                .AsNoTracking()
+                .Where(u => u.IsAdmin == false)
+                .Select(u => new GetUserDto
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Username = u.Username,
+                    orderCount = u.Orders.Count,
+                })
+                .ToListAsync(cancellationToken);
         }
     }
 }

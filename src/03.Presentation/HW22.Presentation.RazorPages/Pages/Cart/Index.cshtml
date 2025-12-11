@@ -10,6 +10,12 @@
 </head>
 <body>
 
+    @if ((TempData["ErrorMessage"]) != null)
+    {
+        <div class="alert alert-error text-center" style="margin-top:78px; width:100%; display:flex; justify-content:flex-end; ">
+            @TempData["ErrorMessage"]
+        </div>
+    }
     
         <div class="cart-box">
 

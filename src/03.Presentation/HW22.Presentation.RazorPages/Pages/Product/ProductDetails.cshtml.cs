@@ -1,4 +1,4 @@
-using HW22.Domain.Core.Contracts.Product;
+using HW22.Domain.Core.Contracts.AppService;
 using HW22.Domain.Core.Dtos.Product;
 using HW22.Presentation.RazorPages.Service;
 using Microsoft.AspNetCore.Mvc;

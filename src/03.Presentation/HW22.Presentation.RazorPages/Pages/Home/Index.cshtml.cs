@@ -1,5 +1,4 @@
-using HW22.Domain.Core.Contracts.Category;
-using HW22.Domain.Core.Contracts.Product;
+using HW22.Domain.Core.Contracts.AppService;
 using HW22.Domain.Core.Dtos.Category;
 using HW22.Domain.Core.Dtos.Product;
 using HW22.Presentation.RazorPages.Service;
@@ -8,15 +7,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HW22.Presentation.RazorPages.Pages.Home
 {
-    public class HomeModel(IProductAppService productAppService, ICategoryAppService categoryAppService,IBasketService basketService) : PageModel
+    public class HomeModel(ILogger<HomeModel> logger,IProductAppService productAppService, ICategoryAppService categoryAppService,IBasketService basketService) : PageModel
     {
+        private readonly ILogger<HomeModel> _logger = logger;
         public List<GetProductDto> Products { get; set; }
         public List<GetCategoryDto> Categories { get; set; } = new();
         public string Message { get; set; }
+
+
         public async Task OnGet(CancellationToken cancellationToken)
         {
             Products = await productAppService.GetAll(cancellationToken);
             Categories = await categoryAppService.GetAll(cancellationToken);
+
         }
 
         public async Task<IActionResult> OnPostAddToBasket(int productId,CancellationToken cancellationToken)
@@ -24,6 +27,8 @@ namespace HW22.Presentation.RazorPages.Pages.Home
             var result = await basketService.IncreaseItem(productId, cancellationToken);
             Message = result.Message;
 
+           
+            _logger.LogInformation("User Added Product In Home Page");
             return RedirectToPage("/Home/Index");
         }
     }

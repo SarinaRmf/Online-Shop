@@ -1,5 +1,5 @@
 ﻿using HW22.Domain.AppServices;
-using HW22.Domain.Core.Contracts.Product;
+using HW22.Domain.Core.Contracts.AppService;
 using HW22.Domain.Core.Dtos._common;
 using HW22.Domain.Core.Dtos.OrderItem;
 using HW22.Presentation.RazorPages.Models;

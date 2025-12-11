@@ -1,27 +1,40 @@
 using HW22.Domain.AppServices;
-using HW22.Domain.Core.Contracts.Category;
-using HW22.Domain.Core.Contracts.Order;
-using HW22.Domain.Core.Contracts.OrderItem;
-using HW22.Domain.Core.Contracts.Product;
-using HW22.Domain.Core.Contracts.User;
-using HW22.Domain.Core.Contracts.Wallet;
+using HW22.Domain.Core.Contracts.AppService;
+using HW22.Domain.Core.Contracts.Repository;
+using HW22.Domain.Core.Contracts.Servcie;
 using HW22.Domain.Services;
 using HW22.Infra.Data.Repos.Ef;
 using HW22.Infra.Db.SqlServer.Ef;
 using HW22.Presentation.RazorPages.Extentions;
+using HW22.Presentation.RazorPages.Middlewares;
 using HW22.Presentation.RazorPages.Service;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Host.UseSerilog((context, services, configuration) =>
+{
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext();
+});
+
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+#region ServiceRegisteration
 
 builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=HW22;User ID=sa;Password=Az@r4180;Trust Server Certificate=True "));
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<IFileService, FileService>();
+
 builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -48,10 +61,12 @@ builder.Services.AddScoped<IWalletRepository, WalletRepository>();
 
 builder.Services.AddScoped<ICookieService, CookieService>();
 
-builder.Services.AddScoped<IBasketService,BasketService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddSession();
+#endregion
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -64,6 +79,8 @@ if (!app.Environment.IsDevelopment())
 app.UseSession();
 app.UseHttpsRedirection();
 
+app.UseMiddleware<LoggingMiddleware>();
+
 app.UseRouting();
 
 app.UseAuthorization();
@@ -72,10 +89,13 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
+
+
 app.MapGet("/", (context) =>
 {
     context.Response.Redirect("/Home/Index");
     return Task.CompletedTask;
 });
+
 
 app.Run();

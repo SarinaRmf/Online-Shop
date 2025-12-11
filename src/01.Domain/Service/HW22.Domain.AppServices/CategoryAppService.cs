@@ -1,4 +1,6 @@
-﻿using HW22.Domain.Core.Contracts.Category;
+﻿using HW22.Domain.Core.Contracts.AppService;
+using HW22.Domain.Core.Contracts.Servcie;
+using HW22.Domain.Core.Dtos._common;
 using HW22.Domain.Core.Dtos.Category;
 using System;
 using System.Collections.Generic;
@@ -8,14 +10,44 @@ namespace HW22.Domain.AppServices
 {
     public class CategoryAppService(ICategoryService categoryService) : ICategoryAppService
     {
-        public Task<List<GetCategoryDto>> GetAll(CancellationToken cancellationToken)
+        public async Task<ResultDto<bool>> Create(CreateCategoryDto createCategoryDto)
         {
-            return categoryService.GetAll(cancellationToken);
+            var result = await categoryService.Create(createCategoryDto);
+            if (result)
+            {
+                return ResultDto<bool>.Success("Category created successfully.", true);
+            }
+            return ResultDto<bool>.Failure("Failed to create category.", false);
         }
 
-        public Task<GetCategoryDto?> GetById(int id, CancellationToken cancellationToken)
+        public async Task<ResultDto<bool>> Delete(int categoryId, CancellationToken cancellationToken)
         {
-            return categoryService.GetById(id, cancellationToken);
+            var result = await categoryService.Delete(categoryId, cancellationToken);
+            if(result)
+            {
+                return ResultDto<bool>.Success("Category deleted successfully.", true);
+            }
+            return ResultDto<bool>.Failure("Failed to delete category.", false);
+        }
+
+        public async Task<List<GetCategoryDto>> GetAll(CancellationToken cancellationToken)
+        {
+            return await categoryService.GetAll(cancellationToken);
+        }
+
+        public async Task<GetCategoryDto?> GetById(int id, CancellationToken cancellationToken)
+        {
+            return await categoryService.GetById(id, cancellationToken);
+        }
+
+        public async Task<ResultDto<bool>> Update(GetCategoryDto updateCategoryDto, CancellationToken cancellationToken)
+        {
+            var result = await categoryService.Update(updateCategoryDto, cancellationToken);
+            if(result)
+            {
+                return ResultDto<bool>.Success("Category updated successfully.", true);
+            }
+            return ResultDto<bool>.Failure("Failed to update category.", false);
         }
     }
 }

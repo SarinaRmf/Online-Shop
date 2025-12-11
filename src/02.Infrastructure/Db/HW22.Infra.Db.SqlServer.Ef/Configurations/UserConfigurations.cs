@@ -28,10 +28,10 @@ namespace HW22.Infra.Db.SqlServer.Ef.Configurations
 
             builder.HasData(new List<User> 
             {
-                new User { Id = 1, FirstName ="Sarina" , LastName ="Rafiee" , Address = "Tehran,piroozi",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="SarinaRmf" },
-                new User { Id = 2, FirstName ="Bahar" , LastName ="Mahmoodi" , Address = "Karaj,Jahanshar",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="Bahar24" },
-                new User { Id = 3, FirstName ="Mahsa" , LastName ="Ghafari" , Address = "Karaj,Banafshe",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="Mahsa24" },
-                new User { Id = 4, FirstName ="Azar" , LastName ="Farahani" , Address = "Tehran,piroozi",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="AzarRmf" }
+                new User { Id = 1, FirstName ="Sarina" , LastName ="Rafiee" , Address = "Tehran,piroozi",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="SarinaRmf", IsAdmin = true },
+                new User { Id = 2, FirstName ="Bahar" , LastName ="Mahmoodi" , Address = "Karaj,Jahanshar",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="Bahar24" , IsAdmin = false},
+                new User { Id = 3, FirstName ="Mahsa" , LastName ="Ghafari" , Address = "Karaj,Banafshe",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="Mahsa24", IsAdmin = false },
+                new User { Id = 4, FirstName ="Azar" , LastName ="Farahani" , Address = "Tehran,piroozi",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="AzarRmf", IsAdmin = false }
             });
         }
     }

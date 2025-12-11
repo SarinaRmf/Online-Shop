@@ -416,3 +416,31 @@ footer {
         .logout:hover i {
             color: #6C76DD;
         }
+.alert {
+    padding: 15px 20px;
+    margin: 20px auto;
+    width: 350px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    direction: rtl;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* پیام موفق */
+.alert-success {
+    background-color: #e6ffed;
+    border: 2px solid #00a65a;
+    color: #0f5132;
+}
+
+/* پیام خطا */
+.alert-error {
+    background-color: #ffe6e6;
+    border: 2px solid #d9534f;
+    color: #842029;
+}

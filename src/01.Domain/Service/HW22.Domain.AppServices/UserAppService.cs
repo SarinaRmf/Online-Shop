@@ -1,4 +1,5 @@
-﻿using HW22.Domain.Core.Contracts.User;
+﻿using HW22.Domain.Core.Contracts.AppService;
+using HW22.Domain.Core.Contracts.Servcie;
 using HW22.Domain.Core.Dtos._common;
 using HW22.Domain.Core.Dtos.User;
 using System;
@@ -9,6 +10,16 @@ namespace HW22.Domain.AppServices
 {
     public class UserAppService(IUserService userService) : IUserAppService
     {
+        public async Task<List<GetUserDto>> GetUsers(CancellationToken cancellationToken)
+        {
+            return await userService.GetUsers(cancellationToken);
+        }
+
+        public async Task<GetUserDto> GetUserDetails(int userId, CancellationToken cancellationToken)
+        {
+            return await userService.GetUserDetails(userId,cancellationToken);
+        }
+
         public async Task<decimal> GetUserWalletBalance(int userId, CancellationToken cancellationToken)
         {
             return await userService.GetUserWalletBalance(userId, cancellationToken);

@@ -42,6 +42,10 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -66,6 +70,7 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "New women collection",
                             ImagePath = "/Images/Category/banner-04.jpg",
                             Name = "Women"
                         },
@@ -73,6 +78,7 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "New Men collection",
                             ImagePath = "/Images/Category/banner-05.jpg",
                             Name = "Men"
                         },
@@ -80,6 +86,7 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 3,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "New Accessory collection",
                             ImagePath = "/Images/Category/banner-03.jpg",
                             Name = "Accessory"
                         },
@@ -87,6 +94,7 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                         {
                             Id = 4,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "New Kids collection",
                             ImagePath = "/Images/Category/istockphoto-1076514954-612x612.jpg",
                             Name = "Kids"
                         });
@@ -312,6 +320,9 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -351,6 +362,7 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                             Address = "Tehran,piroozi",
                             CreatedAt = new DateTime(2025, 11, 30, 14, 35, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Sarina",
+                            IsAdmin = true,
                             LastName = "Rafiee",
                             PasswordHash = "81dc9bdb52d04dc20036dbd8313ed055",
                             Phone = "09101234563",
@@ -363,6 +375,7 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                             Address = "Karaj,Jahanshar",
                             CreatedAt = new DateTime(2025, 11, 30, 14, 35, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Bahar",
+                            IsAdmin = false,
                             LastName = "Mahmoodi",
                             PasswordHash = "81dc9bdb52d04dc20036dbd8313ed055",
                             Phone = "09101234563",
@@ -375,6 +388,7 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                             Address = "Karaj,Banafshe",
                             CreatedAt = new DateTime(2025, 11, 30, 14, 35, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Mahsa",
+                            IsAdmin = false,
                             LastName = "Ghafari",
                             PasswordHash = "81dc9bdb52d04dc20036dbd8313ed055",
                             Phone = "09101234563",
@@ -387,6 +401,7 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                             Address = "Tehran,piroozi",
                             CreatedAt = new DateTime(2025, 11, 30, 14, 35, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Azar",
+                            IsAdmin = false,
                             LastName = "Farahani",
                             PasswordHash = "81dc9bdb52d04dc20036dbd8313ed055",
                             Phone = "09101234563",

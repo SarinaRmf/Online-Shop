@@ -1,4 +1,5 @@
-﻿using HW22.Domain.Core.Contracts.Category;
+﻿using HW22.Domain.Core.Contracts.Repository;
+using HW22.Domain.Core.Contracts.Servcie;
 using HW22.Domain.Core.Dtos.Category;
 using System;
 using System.Collections.Generic;
@@ -6,16 +7,47 @@ using System.Text;
 
 namespace HW22.Domain.Services
 {
-    public class CategoryService(ICategoryRepository _repo) : ICategoryService
+    public class CategoryService(ICategoryRepository _repo, IFileService fileService) : ICategoryService
     {
-        public Task<List<GetCategoryDto>> GetAll(CancellationToken cancellationToken)
+        public async Task<bool> Create(CreateCategoryDto createCategoryDto)
         {
-            return _repo.GetAll(cancellationToken);
+            createCategoryDto.ImagePath = fileService.Upload(createCategoryDto.ImageFile, "Category");
+            return await _repo.Create(createCategoryDto);
         }
 
-        public Task<GetCategoryDto?> GetById(int id, CancellationToken cancellationToken)
+        public async Task<bool> Delete(int categoryId, CancellationToken cancellationToken)
         {
-            return _repo.GetById(id, cancellationToken);
+            return await _repo.Delete(categoryId, cancellationToken);
+        }
+
+        public async Task<List<GetCategoryDto>> GetAll(CancellationToken cancellationToken)
+        {
+            return await _repo.GetAll(cancellationToken);
+        }
+
+        public async Task<GetCategoryDto?> GetById(int id, CancellationToken cancellationToken)
+        {
+            return await _repo.GetById(id, cancellationToken);
+        }
+
+        public async Task<bool> IsExist(string name, CancellationToken cancellationToken)
+        {
+            return await _repo.IsExist(name, cancellationToken);
+        }
+
+        public async Task<bool> Update(GetCategoryDto updateCategoryDto, CancellationToken cancellationToken)
+        {
+            if (updateCategoryDto.ImageFile is not null)
+            {
+                var currentImage = await _repo.GetImagePath(updateCategoryDto.Id);
+                if (!string.IsNullOrEmpty(currentImage))
+                {
+                    fileService.Delete(currentImage); 
+                   
+                }
+                updateCategoryDto.ImagePath = fileService.Upload(updateCategoryDto.ImageFile, "Category");
+            }
+            return await _repo.Update(updateCategoryDto, cancellationToken);
         }
     }
 }

@@ -1,11 +1,11 @@
-using HW22.Domain.Core.Contracts.User;
+using HW22.Domain.Core.Contracts.AppService;
 using HW22.Presentation.RazorPages.Extentions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HW22.Presentation.RazorPages.Pages.Account
 {
-    public class LoginModel(IUserAppService userAppService, ICookieService cookieService) : PageModel
+    public class LoginModel(IUserAppService userAppService, ICookieService cookieService) : BasePage
     {
         public string Message { get; set; }
         [BindProperty]
@@ -24,7 +24,14 @@ namespace HW22.Presentation.RazorPages.Pages.Account
                 cookieService.Set("Username", loginResult.Data.UserName);
 
                 TempData["AccountMessage"] = loginResult.Message;
-                return RedirectToPage("/Home/Index");
+                if (loginResult.Data.IsAdmin)
+                {
+                    return RedirectToPage("/Dashboard/Index", new { area = "Admin" });
+                }
+                {
+                    
+                    return RedirectToPage("/Home/Index");
+                }
             }
             else
             {

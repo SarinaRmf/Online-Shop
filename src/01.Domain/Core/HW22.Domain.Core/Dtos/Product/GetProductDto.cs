@@ -13,6 +13,6 @@ namespace HW22.Domain.Core.Dtos.Product
         public string Category { get; set; }
         public decimal Price { get; set; }
         public string ImagePath { get; set; }
-        public int Count { get; set; } //موجودی
+        public int Count { get; set; }
     }
 }

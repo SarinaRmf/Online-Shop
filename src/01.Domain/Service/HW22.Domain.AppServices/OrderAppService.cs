@@ -1,8 +1,5 @@
-﻿using HW22.Domain.Core.Contracts.Order;
-using HW22.Domain.Core.Contracts.OrderItem;
-using HW22.Domain.Core.Contracts.Product;
-using HW22.Domain.Core.Contracts.User;
-using HW22.Domain.Core.Contracts.Wallet;
+﻿using HW22.Domain.Core.Contracts.AppService;
+using HW22.Domain.Core.Contracts.Servcie;
 using HW22.Domain.Core.Dtos._common;
 using HW22.Domain.Core.Dtos.Order;
 using System;
@@ -13,6 +10,11 @@ namespace HW22.Domain.AppServices
 {
     public class OrderAppService(IOrderService orderService,IOrderItemService orderItemService,IUserService userService,IWalletService walletService,IProductService productService) : IOrderAppService 
     {
+        public Task<List<GetOrderDto>> GetAll(CancellationToken cancellationToken)
+        {
+            return orderService.GetAll(cancellationToken);
+        }
+
         public async Task<ResultDto<bool>> MakeOrder(CreateOrderDto orderDto, CancellationToken cancellationToken)
         {
             

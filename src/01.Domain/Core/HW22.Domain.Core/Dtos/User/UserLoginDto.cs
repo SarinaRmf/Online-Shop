@@ -8,5 +8,6 @@ namespace HW22.Domain.Core.Dtos.User
     {
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

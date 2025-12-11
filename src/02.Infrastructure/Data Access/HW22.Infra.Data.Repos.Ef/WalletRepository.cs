@@ -1,4 +1,4 @@
-﻿using HW22.Domain.Core.Contracts.Wallet;
+﻿using HW22.Domain.Core.Contracts.Repository;
 using HW22.Infra.Db.SqlServer.Ef;
 using Microsoft.EntityFrameworkCore;
 using System;

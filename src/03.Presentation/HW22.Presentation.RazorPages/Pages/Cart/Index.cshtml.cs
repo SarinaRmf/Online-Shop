@@ -1,4 +1,4 @@
-using HW22.Domain.Core.Contracts.Order;
+using HW22.Domain.Core.Contracts.AppService;
 using HW22.Domain.Core.Dtos.Order;
 using HW22.Domain.Core.Dtos.OrderItem;
 using HW22.Presentation.RazorPages.Extentions;
@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace HW22.Presentation.RazorPages.Pages.Cart
 {
-    public class IndexModel(IBasketService basketService, IOrderAppService orderAppService) : BasePage
+    public class IndexModel(ILogger<IndexModel> _logger,IBasketService basketService, IOrderAppService orderAppService) : BasePage
     {
         public List<GetOrderItemDto> OrderItems {  get; set;  } = new();
 
@@ -22,17 +22,19 @@ namespace HW22.Presentation.RazorPages.Pages.Cart
         {
             var result = await basketService.IncreaseItem(productId, cancellationToken);
             Message = result.Message;
-
+            _logger.LogInformation("User add increased one item to their basket");
             return RedirectToPage("/Cart/Index");
         }
         public async Task<IActionResult> OnGetReduct(int productId, CancellationToken cancellationToken)
         {
             await basketService.RemoveItem(productId,cancellationToken);
+            _logger.LogInformation("User removed one item of their basker");
             return RedirectToPage("/Cart/Index");
         }
         public async Task<IActionResult> OnGetClearItem(int productId, CancellationToken cancellationToken)
         {
             await basketService.ClearItem(productId, cancellationToken);
+            _logger.LogInformation("User cleared one item of their basker");
             return RedirectToPage("/Cart/Index");
         }
         public async Task<IActionResult> OnGetCheckOut(CancellationToken cancellationToken)
@@ -59,10 +61,21 @@ namespace HW22.Presentation.RazorPages.Pages.Cart
                     TotalPrice = basketItems.Sum(x => x.UnitPrice * x.Count)
                 };
                 var checkoutResult = await orderAppService.MakeOrder(Order, cancellationToken);
-                basketService.DeleteBasket();
 
-                TempData["AccountMessage"] = "Checked out Successfully";
-                return RedirectToPage("/Home/Index");
+                if (checkoutResult.IsSuccess)
+                {
+                    _logger.LogWarning("Product stock updated");
+                    _logger.LogInformation("User checkedout");
+                    TempData["AccountMessage"] = checkoutResult.Message;
+                    basketService.DeleteBasket();
+
+                    return RedirectToPage("/Home/Index");
+
+                }
+
+                _logger.LogError("Failed in Checkout");
+                TempData["ErrorMessage"] = checkoutResult.Message;
+                return RedirectToPage("/Cart/Index");
             }
             else
             {

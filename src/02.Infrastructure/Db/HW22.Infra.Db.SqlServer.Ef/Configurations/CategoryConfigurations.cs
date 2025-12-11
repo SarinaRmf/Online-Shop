@@ -19,10 +19,11 @@ namespace HW22.Infra.Db.SqlServer.Ef.Configurations
 
             builder.HasData(new List<Category>
             {
-                new Category { Id = 1 , Name = "Women" , ImagePath = "/Images/Category/banner-04.jpg"},
-                new Category { Id = 2 , Name = "Men",ImagePath = "/Images/Category/banner-05.jpg"},
-                new Category { Id = 3 , Name = "Accessory",ImagePath = "/Images/Category/banner-03.jpg"},
-                new Category { Id = 4 , Name = "Kids",ImagePath = "/Images/Category/istockphoto-1076514954-612x612.jpg"},
+                new Category { Id = 1 , Name = "Women" , ImagePath = "/Images/Category/banner-04.jpg", Description = "New women collection"},
+                new Category { Id = 2 , Name = "Men",ImagePath = "/Images/Category/banner-05.jpg",Description = "New Men collection"},
+                new Category { Id = 3 , Name = "Accessory",ImagePath = "/Images/Category/banner-03.jpg",Description = "New Accessory collection"},
+                new Category { Id = 4 , Name = "Kids",ImagePath = "/Images/Category/istockphoto-1076514954-612x612.jpg",Description = "New Kids collection"},
+
             });
         }
     }

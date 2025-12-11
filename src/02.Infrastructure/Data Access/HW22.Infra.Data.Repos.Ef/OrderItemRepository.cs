@@ -1,7 +1,8 @@
-﻿using HW22.Domain.Core.Contracts.OrderItem;
+﻿using HW22.Domain.Core.Contracts.Repository;
 using HW22.Domain.Core.Dtos.OrderItem;
 using HW22.Domain.Core.Entities;
 using HW22.Infra.Db.SqlServer.Ef;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,6 +24,23 @@ namespace HW22.Infra.Data.Repos.Ef
 
             await context.OrderItems.AddRangeAsync(entities, cancellationToken);
             return await context.SaveChangesAsync(cancellationToken) > 0;
+        }
+
+        public async Task<List<GetOrderItemDto>> GetAll(int orderId,CancellationToken cancellationToken) {
+
+            return await context.OrderItems
+                .AsNoTracking()
+                .Where(o => o.OrderId == orderId)
+                .Select(o => new GetOrderItemDto
+                {
+                    Count = o.Count,
+                    UnitPrice = o.UnitPrice,
+                    ProductId = o.ProductId,
+                    ProductImagePath = o.Product.ImagePath,
+                    ProductName = o.Product.Name,
+                    TotalPrice = o.TotalPrice,
+                    
+                }).ToListAsync(cancellationToken);
         }
     }
 }
