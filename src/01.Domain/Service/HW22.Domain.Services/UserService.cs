@@ -24,7 +24,7 @@ namespace HW22.Domain.Services
 
         public async Task<UserLoginDto> Login(string username, string password, CancellationToken cancellationToken)
         {
-            password = password.ToMd5Hex();
+            //password = password.ToMd5Hex();
             return await _repo.Login(username, password, cancellationToken);
         }
     }

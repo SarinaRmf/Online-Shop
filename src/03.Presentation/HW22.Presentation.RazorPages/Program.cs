@@ -2,12 +2,15 @@ using HW22.Domain.AppServices;
 using HW22.Domain.Core.Contracts.AppService;
 using HW22.Domain.Core.Contracts.Repository;
 using HW22.Domain.Core.Contracts.Servcie;
+using HW22.Domain.Core.Entities;
 using HW22.Domain.Services;
+using HW22.framework;
 using HW22.Infra.Data.Repos.Ef;
 using HW22.Infra.Db.SqlServer.Ef;
 using HW22.Presentation.RazorPages.Extentions;
 using HW22.Presentation.RazorPages.Middlewares;
 using HW22.Presentation.RazorPages.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
@@ -29,8 +32,24 @@ builder.Services.AddRazorPages();
 #region ServiceRegisteration
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=HW22;User ID=sa;Password=Az@r4180;Trust Server Certificate=True "));
+                options.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=HW24;User ID=sa;Password=Az@r4180;Trust Server Certificate=True "));
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(
+    options =>
+    {
+        options.SignIn.RequireConfirmedEmail = false;
+        options.SignIn.RequireConfirmedPhoneNumber = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 4;
+        options.Password.RequireNonAlphanumeric = false;
+        options.User.RequireUniqueEmail = false;
+    })
+    .AddErrorDescriber<PersianIdentityErrorDescriber>()
+    .AddEntityFrameworkStores<AppDbContext>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IFileService, FileService>();
@@ -83,6 +102,7 @@ app.UseMiddleware<LoggingMiddleware>();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

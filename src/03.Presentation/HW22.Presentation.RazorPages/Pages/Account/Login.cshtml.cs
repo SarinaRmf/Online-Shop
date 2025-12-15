@@ -20,8 +20,7 @@ namespace HW22.Presentation.RazorPages.Pages.Account
             var loginResult = await userAppService.Login(Username, Password, cancellationToken);
             if (loginResult.IsSuccess)
             {
-                cookieService.Set("Id", loginResult.Data.UserId.ToString());
-                cookieService.Set("Username", loginResult.Data.UserName);
+                
 
                 TempData["AccountMessage"] = loginResult.Message;
                 if (loginResult.Data.IsAdmin)

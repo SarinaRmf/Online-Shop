@@ -9,5 +9,6 @@ namespace HW22.Domain.Core.Contracts.AppService
         Task<decimal> GetUserWalletBalance(int userId, CancellationToken cancellationToken);
         Task<GetUserDto?> GetUserDetails(int userId, CancellationToken cancellationToken);
         Task<List<GetUserDto>> GetUsers(CancellationToken cancellationToken);
+        Task<ResultDto<bool>> Register(RegisterUserDto userDto, CancellationToken cancellationToken);
     }
 }

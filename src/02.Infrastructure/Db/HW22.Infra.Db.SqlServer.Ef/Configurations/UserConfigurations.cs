@@ -1,5 +1,6 @@
 ﻿using HW22.Domain.Core.Entities;
 using HW22.framework;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -8,9 +9,9 @@ using System.Text;
 
 namespace HW22.Infra.Db.SqlServer.Ef.Configurations
 {
-    public class UserConfigurations : IEntityTypeConfiguration<User>
+    public class UserConfigurations : IEntityTypeConfiguration<ApplicationUser>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             builder.HasOne(u => u.Wallet)
                 .WithOne(w => w.User)
@@ -20,18 +21,20 @@ namespace HW22.Infra.Db.SqlServer.Ef.Configurations
                 .WithOne(o => o.User)
                 .HasForeignKey(o => o.UserId);
 
-            builder.Property(u => u.Username).HasMaxLength(50);
-            builder.Property(u => u.PasswordHash).HasMaxLength(50);
+            builder.Property(u => u.UserName).HasMaxLength(50);
             builder.Property(u => u.Address).HasMaxLength(500);
             builder.Property(u => u.FirstName).HasMaxLength(50);
             builder.Property(u => u.LastName).HasMaxLength(50);
-
-            builder.HasData(new List<User> 
+            
+            
+            var hasher = new PasswordHasher<ApplicationUser>();
+            
+            builder.HasData(new List<ApplicationUser> 
             {
-                new User { Id = 1, FirstName ="Sarina" , LastName ="Rafiee" , Address = "Tehran,piroozi",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="SarinaRmf", IsAdmin = true },
-                new User { Id = 2, FirstName ="Bahar" , LastName ="Mahmoodi" , Address = "Karaj,Jahanshar",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="Bahar24" , IsAdmin = false},
-                new User { Id = 3, FirstName ="Mahsa" , LastName ="Ghafari" , Address = "Karaj,Banafshe",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="Mahsa24", IsAdmin = false },
-                new User { Id = 4, FirstName ="Azar" , LastName ="Farahani" , Address = "Tehran,piroozi",PasswordHash = "1234".ToMd5Hex(), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),Phone = "09101234563",Username="AzarRmf", IsAdmin = false }
+                new ApplicationUser { Id = 1, FirstName ="Sarina" , LastName ="Rafiee" , Address = "Tehran,piroozi",PasswordHash = hasher.HashPassword(null, "1234567"), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),PhoneNumber = "09101234563",UserName="SarinaRmf", IsAdmin = true },
+                new ApplicationUser { Id = 2, FirstName ="Bahar" , LastName ="Mahmoodi" , Address = "Karaj,Jahanshar",PasswordHash = hasher.HashPassword(null, "1234567"), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),PhoneNumber = "09101234563",UserName="Bahar24" , IsAdmin = false},
+                new ApplicationUser { Id = 3, FirstName ="Mahsa" , LastName ="Ghafari" , Address = "Karaj,Banafshe",PasswordHash = hasher.HashPassword(null, "1234567"), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),PhoneNumber = "09101234563",UserName="Mahsa24", IsAdmin = false },
+                new ApplicationUser { Id = 4, FirstName ="Azar" , LastName ="Farahani" , Address = "Tehran,piroozi",PasswordHash = hasher.HashPassword(null, "1234567"), CreatedAt = new DateTime(2025, 11, 30, 14, 35, 00),PhoneNumber = "09101234563",UserName="AzarRmf", IsAdmin = false }
             });
         }
     }

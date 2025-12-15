@@ -11,11 +11,11 @@ namespace HW22.Infra.Data.Repos.Ef
         {
             return _context.Users
                 .AsNoTracking()
-                .Where(u => u.Username == username && u.PasswordHash == password)
+                .Where(u => u.UserName == username && u.PasswordHash == password)
                 .Select(u => new UserLoginDto
                 {
                     UserId = u.Id,
-                    UserName = u.Username,
+                    UserName = u.UserName,
                     IsAdmin = u.IsAdmin
                 })
                 .FirstOrDefault();
@@ -38,10 +38,10 @@ namespace HW22.Infra.Data.Repos.Ef
 
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    Phone = u.Phone,
+                    Phone = u.PhoneNumber,
                     WalletCount = u.Wallet.Amount,
                     Address = u.Address,
-                    Username = u.Username,
+                    Username = u.UserName,
                 })
                 .FirstOrDefaultAsync(cancellationToken);
         }
@@ -56,7 +56,7 @@ namespace HW22.Infra.Data.Repos.Ef
                     Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    Username = u.Username,
+                    Username = u.UserName,
                     orderCount = u.Orders.Count,
                 })
                 .ToListAsync(cancellationToken);
