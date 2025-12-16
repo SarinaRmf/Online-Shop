@@ -1,11 +1,13 @@
 using HW22.Domain.Core.Contracts.AppService;
 using HW22.Domain.Core.Dtos.Category;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HW22.Presentation.RazorPages.Areas.Admin.Pages.Category
 {
     [Area(AreaConstants.Admin)]
+    [Authorize(Roles = "Admin")]
     public class IndexModel(ICategoryAppService categoryAppService) : PageModel
     {
         public List<GetCategoryDto> Categories {  get; set; } = new List<GetCategoryDto>();

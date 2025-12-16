@@ -17,7 +17,7 @@ namespace HW22.Domain.Core.Entities
         public List<Order>? Orders { get; set; }
         public Wallet? Wallet { get; set; }
         public int? WalletId { get; set; }
-        public bool IsAdmin { get; set; }
+        //public bool IsAdmin { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

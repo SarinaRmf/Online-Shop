@@ -50,6 +50,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(
     })
     .AddErrorDescriber<PersianIdentityErrorDescriber>()
     .AddEntityFrameworkStores<AppDbContext>();
+
+
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IFileService, FileService>();

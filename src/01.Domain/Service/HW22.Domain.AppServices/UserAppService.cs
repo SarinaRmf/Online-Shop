@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 
 namespace HW22.Domain.AppServices
@@ -28,32 +29,51 @@ namespace HW22.Domain.AppServices
             return await userService.GetUserWalletBalance(userId, cancellationToken);
         }
 
-        public async Task<ResultDto<UserLoginDto>> Login(string username, string password, CancellationToken cancellationToken)
+        public async Task<ResultDto<bool>> Login(string username, string password, CancellationToken cancellationToken)
         {
             if(string.IsNullOrWhiteSpace(username)) { 
             
-                return ResultDto<UserLoginDto>.Failure("Username cannot be empty.");
+                return ResultDto<bool>.Failure("Username cannot be empty.");
             }
             if (string.IsNullOrWhiteSpace(password)) { 
             
-                return ResultDto<UserLoginDto>.Failure("Password cannot be empty.");
+                return ResultDto<bool>.Failure("Password cannot be empty.");
             }
 
             //var UserLoginDto = await userService.Login(username, password, cancellationToken);
-            var userLoginDto = await userManager.Users
-                .Where(u => u.UserName == username) // ابتدا فیلتر را بزن
-                .Select(u => new UserLoginDto
-                {
-        UserId = u.Id,
-        UserName = u.UserName,
-        IsAdmin = u.IsAdmin
-    })
-    .FirstOrDefaultAsync(cancellationToken);
+            
             var result = await signInManager.PasswordSignInAsync(username, password, true, false);
+
+            
+
             if (result.Succeeded) {
-                return ResultDto<UserLoginDto>.Success("Login successful.", userLoginDto);
+
+                var user = await userManager.FindByNameAsync(username);
+                if(user is not null)
+                {
+                    var roles = await userManager.GetRolesAsync(user);
+
+                    var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                };
+
+                    foreach (var role in roles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role));
+                    }
+
+                    await signInManager.SignInAsync(
+                        user,
+                        isPersistent: true
+                    );
+                }
+
+                return ResultDto<bool>.Success("Login successful.");
             }
-            return ResultDto<UserLoginDto>.Failure("Invalid username or password!");
+
+            return ResultDto<bool>.Failure("Invalid username or password!");
         }
 
         public async Task<ResultDto<bool>> Register(RegisterUserDto userDto, CancellationToken cancellationToken)
@@ -65,13 +85,13 @@ namespace HW22.Domain.AppServices
                 LastName = userDto.LastName,
                 Address = userDto.Address,
                 PhoneNumber = userDto.Phone,
-                IsAdmin = false,
                 CreatedAt = DateTime.Now
             };
 
             var result = await userManager.CreateAsync(user, userDto.Password);
-            if (result.Succeeded) { 
-            
+            if (result.Succeeded) {
+
+                await userManager.AddToRoleAsync(user, "User");
                 return ResultDto<bool>.Success("User registered successfully.", true);  
             }
             var errors = string.Join(", ", result.Errors.Select(e => e.Description));

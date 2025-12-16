@@ -16,7 +16,7 @@ namespace HW22.Infra.Data.Repos.Ef
                 {
                     UserId = u.Id,
                     UserName = u.UserName,
-                    IsAdmin = u.IsAdmin
+                    //IsAdmin = u.IsAdmin
                 })
                 .FirstOrDefault();
         }
@@ -50,7 +50,7 @@ namespace HW22.Infra.Data.Repos.Ef
         {
             return await _context.Users
                 .AsNoTracking()
-                .Where(u => u.IsAdmin == false)
+                //.Where(u => u.IsAdmin == false)
                 .Select(u => new GetUserDto
                 {
                     Id = u.Id,

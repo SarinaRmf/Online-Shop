@@ -1,5 +1,6 @@
 using HW22.Domain.Core.Contracts.AppService;
 using HW22.Domain.Core.Dtos.Category;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 namespace HW22.Presentation.RazorPages.Areas.Admin.Pages.Category
 {
     [Area(AreaConstants.Admin)]
+    [Authorize(Roles = "Admin")]
     public class UpdateModel(ICategoryAppService categoryAppService) : PageModel
     {
         [BindProperty]

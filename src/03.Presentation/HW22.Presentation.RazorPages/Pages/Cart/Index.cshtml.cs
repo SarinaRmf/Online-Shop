@@ -3,12 +3,14 @@ using HW22.Domain.Core.Dtos.Order;
 using HW22.Domain.Core.Dtos.OrderItem;
 using HW22.Presentation.RazorPages.Extentions;
 using HW22.Presentation.RazorPages.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading;
 
 namespace HW22.Presentation.RazorPages.Pages.Cart
 {
+    [Authorize(Roles ="Admin,User")]
     public class IndexModel(ILogger<IndexModel> _logger,IBasketService basketService, IOrderAppService orderAppService) : BasePage
     {
         public List<GetOrderItemDto> OrderItems {  get; set;  } = new();
@@ -57,7 +59,7 @@ namespace HW22.Presentation.RazorPages.Pages.Cart
                 var Order = new CreateOrderDto()
                 {
                     OrederItems = orderItems,
-                    UserId = GetUserId(),
+                    UserId = (int)GetUserId()!,
                     TotalPrice = basketItems.Sum(x => x.UnitPrice * x.Count)
                 };
                 var checkoutResult = await orderAppService.MakeOrder(Order, cancellationToken);

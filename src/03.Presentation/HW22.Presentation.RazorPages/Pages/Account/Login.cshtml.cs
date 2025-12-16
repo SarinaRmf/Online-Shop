@@ -1,11 +1,13 @@
 using HW22.Domain.Core.Contracts.AppService;
+using HW22.Domain.Core.Entities;
 using HW22.Presentation.RazorPages.Extentions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HW22.Presentation.RazorPages.Pages.Account
 {
-    public class LoginModel(IUserAppService userAppService, ICookieService cookieService) : BasePage
+    public class LoginModel(IUserAppService userAppService, ICookieService cookieService,SignInManager<ApplicationUser> signInManager) : BasePage
     {
         public string Message { get; set; }
         [BindProperty]
@@ -20,10 +22,8 @@ namespace HW22.Presentation.RazorPages.Pages.Account
             var loginResult = await userAppService.Login(Username, Password, cancellationToken);
             if (loginResult.IsSuccess)
             {
-                
-
                 TempData["AccountMessage"] = loginResult.Message;
-                if (loginResult.Data.IsAdmin)
+                if (User.IsInRole("Admin"))
                 {
                     return RedirectToPage("/Dashboard/Index", new { area = "Admin" });
                 }
@@ -42,7 +42,7 @@ namespace HW22.Presentation.RazorPages.Pages.Account
         }
         public async Task<IActionResult> OnGetLogout()
         {
-            cookieService.Delete("Id");
+            await signInManager.SignOutAsync();
             TempData["AccountMessage"] = "Log out Successfully";
             return RedirectToPage("/Home/Index");    
         }

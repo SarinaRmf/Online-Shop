@@ -4,6 +4,7 @@ using HW22.Infra.Db.SqlServer.Ef;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HW22.Infra.Db.SqlServer.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251216075509_config-roles-userRoles")]
+    partial class configrolesuserRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,6 +59,9 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -116,19 +122,20 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             Address = "Tehran,piroozi",
-                            ConcurrencyStamp = "415f0fc6-7a74-4e5d-aff6-a2a4653de6c5",
+                            ConcurrencyStamp = "ff89b17b-a803-4ac1-91db-cc8fc6b66fff",
                             CreatedAt = new DateTime(2025, 11, 30, 14, 35, 0, 0, DateTimeKind.Unspecified),
                             Email = "Sarina@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Sarina",
+                            IsAdmin = true,
                             LastName = "Rafiee",
                             LockoutEnabled = false,
                             NormalizedEmail = "SARINA@GMAIL.COM",
                             NormalizedUserName = "SARINARMF",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI3QcCewBTteVB/bNtgTX9HpMj10Wk45CHt/KrL4niJ2zEnLK/d0ABbPThZy+CIQrA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMM58qKIFL22PZFon3m/tQmjFiruTFw5kADAMG0Bc9+emuZrzAram/avE92NTVbckQ==",
                             PhoneNumber = "09101234563",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d5874820-81bf-4f9c-8351-d076ee58a73f",
+                            SecurityStamp = "14bc1c37-25ea-45d9-be2b-68e523069bb8",
                             TwoFactorEnabled = false,
                             UserName = "SarinaRmf"
                         },
@@ -137,19 +144,20 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             Address = "Karaj,Jahanshar",
-                            ConcurrencyStamp = "fb290167-8b3a-4807-83b2-cf0f5d46d579",
+                            ConcurrencyStamp = "731c8b9b-a76e-4ad5-827a-836f0aef51b0",
                             CreatedAt = new DateTime(2025, 11, 30, 14, 35, 0, 0, DateTimeKind.Unspecified),
                             Email = "Bahar@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Bahar",
+                            IsAdmin = false,
                             LastName = "Mahmoodi",
                             LockoutEnabled = false,
                             NormalizedEmail = "BAHAR@GMAIL.COM",
                             NormalizedUserName = "BAHAR24",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKK3Ocsm5Y0rALrkQMFglbjXtuPf8pcg+FvGUr/UCMAhAQYUjPLc+yMbetlDYfg/3g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMIe7ug0uhcrMYTFTfL1iPz12IoKDPxcuTZ5CkA8SmNFK16ibXEJuBF9a/sd5+82gw==",
                             PhoneNumber = "09101234563",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2befc708-c757-4328-964e-1f72ad3fb95a",
+                            SecurityStamp = "706ff98c-a15c-458c-ba85-cbff520d85b9",
                             TwoFactorEnabled = false,
                             UserName = "Bahar24"
                         },
@@ -158,19 +166,20 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                             Id = 3,
                             AccessFailedCount = 0,
                             Address = "Karaj,Banafshe",
-                            ConcurrencyStamp = "30af6b85-19d5-4b52-afab-618a6dfb1bda",
+                            ConcurrencyStamp = "4babd690-65df-4aa2-b39d-4723e177e1ce",
                             CreatedAt = new DateTime(2025, 11, 30, 14, 35, 0, 0, DateTimeKind.Unspecified),
                             Email = "Mahsa@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Mahsa",
+                            IsAdmin = false,
                             LastName = "Ghafari",
                             LockoutEnabled = false,
                             NormalizedEmail = "MAHSA@GMAIL.COM",
                             NormalizedUserName = "MAHSA24",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAfBr/j0o6CkMnHV6oUlO+bDv2QG5CUJ8uUZNK0O0dGwKtBdDh2H0/DAGdGy88yIUA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBJX9Xtp545c5+MhbUZthTJ55pE6f23EFGvo5Cq83Xrw8/c9uha+/nUDp+3hnPPm1g==",
                             PhoneNumber = "09101234563",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f1c097d2-d955-4e0d-87e4-b0f476d2e55b",
+                            SecurityStamp = "1d183e99-e36a-4857-bea2-849d8be316e1",
                             TwoFactorEnabled = false,
                             UserName = "Mahsa24"
                         },
@@ -179,19 +188,20 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                             Id = 4,
                             AccessFailedCount = 0,
                             Address = "Tehran,piroozi",
-                            ConcurrencyStamp = "c0340c9d-8e34-42e6-b2c6-c9cf6622f87f",
+                            ConcurrencyStamp = "f5726751-8c43-48ee-9b15-4bb65b862280",
                             CreatedAt = new DateTime(2025, 11, 30, 14, 35, 0, 0, DateTimeKind.Unspecified),
                             Email = "Azar@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Azar",
+                            IsAdmin = false,
                             LastName = "Farahani",
                             LockoutEnabled = false,
                             NormalizedEmail = "AZAR@GMAIL.COM",
                             NormalizedUserName = "AZARRMF",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEflNpVnS8dDU9s3oD61v/g00SgJyp0X2lhlk0WHldX3lciuUUpwAqsPT9X1mf03Ww==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMjBNcxQJSeevlLlP99bAX6nZpOaKG9G6Z/Q4LYMfYTHsNwdGm8x3HBh4wOh3v/itg==",
                             PhoneNumber = "09101234563",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c3a6a4d3-5f02-429e-bb41-699c73d672d7",
+                            SecurityStamp = "afbb7b6f-8ada-4a04-a72f-c06f7c7f93d1",
                             TwoFactorEnabled = false,
                             UserName = "AzarRmf"
                         });
@@ -568,14 +578,14 @@ namespace HW22.Infra.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "dcf2026f-5b6b-4398-bf10-0f31d0a394fb",
+                            ConcurrencyStamp = "911fb0ff-b74c-4863-94b9-6626a46f4898",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "3caf51a1-ce89-4758-bf8b-14a8587af6b0",
+                            ConcurrencyStamp = "887fe687-a42c-4532-9b49-de26fad17e7f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
