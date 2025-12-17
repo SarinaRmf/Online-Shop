@@ -98,6 +98,80 @@ namespace HW22.Domain.AppServices
             return ResultDto<bool>.Failure($"User registration failed: {errors}", false);
         }
 
+        public async Task<UserProfileDto> GetProfile(int userId)
+        {
+            var user = await userManager.FindByIdAsync(userId.ToString());
+            return new UserProfileDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Username = user.UserName,
+                Address = user.Address,
+                Phone = user.PhoneNumber,
+                CreatedAt = user.CreatedAt
+            };
+        }
+
+        public async Task<ResultDto<bool>> UpdateProfile(int userId, UserProfileDto profile)
+        {
+            var user = await userManager.FindByIdAsync(userId.ToString());
+            if(user is null)
+            {
+                return ResultDto<bool>.Failure("User not found.");
+            }
+
+            var usernameExistBefore = await userManager.FindByNameAsync(profile.Username);
+            if(usernameExistBefore is not null && usernameExistBefore.Id != user.Id)
+            {
+                return ResultDto<bool>.Failure("Username is already taken by another user.");
+            }
+
+            var setUsernameResult = await userManager.SetUserNameAsync(user, profile.Username);
+            if(setUsernameResult.Succeeded == false)
+            {
+                return ResultDto<bool>.Failure("Failed to update username.");
+            }
+
+            var setPhoneResult = await userManager.SetPhoneNumberAsync(user, profile.Phone);
+            if (setPhoneResult.Succeeded == false) { 
+            
+                return ResultDto<bool>.Failure("Failed to update phone number.");
+            }
+
+            user.FirstName = profile.FirstName;
+            user.LastName = profile.LastName;
+            user.Address = profile.Address;
+            
+            var updateResult = await userManager.UpdateAsync(user);
+            var errors = string.Join(", ", updateResult.Errors.Select(e => e.Description));
+            if (updateResult.Succeeded == false) {
+                return ResultDto<bool>.Failure($"Failed to update profile: {errors}");
+            }
+
+            await signInManager.RefreshSignInAsync(user);
+            return ResultDto<bool>.Success("Profile updated successfully.");
+
+        }
+
+        public async Task<ResultDto<bool>> ChangePassword(int userId,UpdateUserPasswordDto passwordDto)
+        {
+            if(passwordDto.ConfirmPassword != passwordDto.NewPassword)
+            {
+                return ResultDto<bool>.Failure("New password and confirm password do not match.");
+            }
+
+            var user = await userManager.FindByIdAsync(userId.ToString());
+
+            var result = await userManager.ChangePasswordAsync(user, passwordDto.CurrentPassword, passwordDto.NewPassword);
+
+            if (result.Succeeded == false) {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                return ResultDto<bool>.Failure($"Failed to change password: {errors}");
+            }
+
+            await signInManager.RefreshSignInAsync(user);
+            return ResultDto<bool>.Success("Password changed successfully.");
+        }
 
     }
 }

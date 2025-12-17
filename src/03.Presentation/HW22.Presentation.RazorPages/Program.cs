@@ -44,7 +44,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(
         options.Lockout.MaxFailedAccessAttempts = 5;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
         options.Password.RequireDigit = false;
-        options.Password.RequiredLength = 4;
+        options.Password.RequiredLength = 7;
         options.Password.RequireNonAlphanumeric = false;
         options.User.RequireUniqueEmail = false;
     })

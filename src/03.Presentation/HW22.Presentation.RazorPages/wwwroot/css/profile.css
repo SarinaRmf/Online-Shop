@@ -1,0 +1,140 @@
+﻿.profile-wrapper {
+    width: 100%;
+    height: calc(100vh - 75px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.profile-card {
+    width: 420px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 35px;
+    border-radius: 22px;
+    box-shadow: 0 12px 45px rgba(0,0,0,0.15);
+    backdrop-filter: blur(10px);
+}
+
+/* Header */
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.avatar {
+    width: 90px;
+    height: 90px;
+    background: #6C76DD;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 15px;
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+}
+
+.profile-header h2 {
+    margin: 0;
+    font-size: 26px;
+    color: #333;
+}
+
+.username {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #777;
+}
+
+/* Info Section */
+.profile-info {
+    margin-top: 25px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+}
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+.label {
+    font-size: 14px;
+    color: #666;
+}
+
+.value {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+.badge {
+    background: rgba(108, 118, 221, 0.15);
+    color: #6C76DD;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Actions */
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+/* Main buttons */
+.btn {
+    width: 100%;
+    padding: 14px 0;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+    .btn.primary {
+        background: #6C76DD;
+        color: white;
+    }
+
+        .btn.primary:hover {
+            background: #5a63c0;
+        }
+
+    .btn.danger {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+        .btn.danger:hover {
+            background: #fbb6b6;
+        }
+
+/* Small Change Password link */
+.change-password-link {
+    font-size: 14px;
+    color: #6C76DD;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: 0.2s;
+}
+
+    .change-password-link:hover {
+        color: #4c54c9;
+    }

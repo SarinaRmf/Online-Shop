@@ -1,0 +1,58 @@
+﻿@page
+@model HW22.Presentation.RazorPages.Pages.Account.EditModel
+@{
+}
+<link rel="stylesheet" href="~/css/edit-profile.css" />
+
+<div class="edit-profile-wrapper">
+    <div class="edit-profile-card">
+
+        <h2>Edit Profile</h2>
+        <p class="subtitle">Update your personal information</p>
+
+        <form method="post">
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label>First Name</label>
+                    <input type="text" asp-for="@Model.userProfileDto.FirstName">
+                    <span asp-validation-for="userProfileDto.FirstName" class="text-danger small"></span>
+                </div>
+
+                <div class="input-group">
+                    <label>Last Name</label>
+                    <input type="text" asp-for="@Model.userProfileDto.LastName">
+                    <span asp-validation-for="userProfileDto.LastName" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" asp-for="@Model.userProfileDto.Username">
+                <span asp-validation-for="userProfileDto.Username" class="text-danger small"></span>
+            </div>
+
+            <div class="input-group">
+                <label>Address</label>
+                <input type="text" asp-for="@Model.userProfileDto.Address">
+                <span asp-validation-for="userProfileDto.Address" class="text-danger small"></span>
+            </div>
+
+            <div class="input-group">
+                <label>Phone Number</label>
+                <input type="tel" asp-for="@Model.userProfileDto.Phone">
+                <span asp-validation-for="userProfileDto.Phone" class="text-danger small"></span>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn primary">Save Changes</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+    <partial name="_ValidationScriptsPartial" />

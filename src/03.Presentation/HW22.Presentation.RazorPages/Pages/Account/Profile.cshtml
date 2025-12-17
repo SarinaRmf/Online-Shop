@@ -1,0 +1,52 @@
+﻿@page
+@model HW22.Presentation.RazorPages.Pages.Account.ProfileModel
+@{
+}
+<link rel="stylesheet" href="~/css/profile.css">
+
+<div class="profile-wrapper">
+    <div class="profile-card">
+
+        @if ((TempData["AccountMessage"]) != null)
+        {
+            <div class="alert alert-success text-center" style="margin-top:78px; width:250px; display:flex; justify-content:flex-end; ">
+                @TempData["AccountMessage"]
+            </div>
+        }
+        <div class="profile-header">
+            <div class="avatar">
+                <span>
+                    @Model.UserProfile.FirstName[0]@Model.UserProfile.LastName[0]
+                </span>
+                    
+            </div>
+            <h2>@Model.UserProfile.FirstName @Model.UserProfile.LastName</h2>
+            <p class="username">@Model.UserProfile.Username</p>
+        </div>
+
+        <div class="profile-info">
+            <div class="info-row">
+                <span class="label">Address</span>
+                <span class="value">@Model.UserProfile.Address</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Phone</span>
+                <span class="value">@Model.UserProfile.Phone</span>
+            </div>
+
+
+            <div class="info-row">
+                <span class="label">Joined</span>
+                <span class="value">@Model.UserProfile.CreatedAt</span>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <a href="/Account/Edit" class="btn primary">Edit Profile</a>
+            <a class="btn danger" style="text-decoration:none;" asp-page="/Account/Login" asp-page-handler="Logout">Logout</a>
+            <a asp-page="/Account/ChangePassword" class="change-password-link">Change Password</a>
+        </div>
+
+    </div>
+</div>
